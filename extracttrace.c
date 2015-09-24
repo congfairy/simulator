@@ -57,11 +57,8 @@ void simsleep(const char *const *action) {//the sleep function that creats and e
   const char *worktime = action[3];
   double sleeptime;
   double clock = MSG_get_clock();       /* this "call" is free thanks to inlining */
-  sleeptime = atof(worktime);  
-  msg_task_t task=NULL;
-  task = MSG_task_create("access",sleeptime,0,NULL);
-  MSG_task_execute(task);
-  MSG_task_destroy(task);
+  sleeptime = atof(worktime); 
+  MSG_process_sleep(sleeptime); 
   log_action(action, MSG_get_clock() - clock);
   XBT_INFO("%s  worker %s is done,time is %s",worker,processid,worktime);
 }
