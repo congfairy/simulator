@@ -3,7 +3,7 @@ filename=$1
 fileactiontrace=${filename%.*}"_action_trace.txt"
 filecontent="storage_content.txt"
 filedeployment=${filename%.*}"_deployment.xml"
-awk -F',' '/file,open/ {gsub("/home","",$10);print $10" "$16}' $filename  | sort -u -k1,1 > $filecontent
+awk -F',' '/file,open/ {gsub("/home","",$10);print $10" "$15}' $filename  | sort -u -k1,1 > $filecontent
 
 printf "<?xml version='1.0'?>\n<!DOCTYPE platform SYSTEM \"http://simgrid.gforge.inria.fr/simgrid.dtd\">\n<platform version=\"3\">\n" >$filedeployment
 starttime=0;
@@ -49,8 +49,38 @@ break;
 }
 return pid;
 }
+function compute(starttime,endtime,pid,filepath)
+{
+gsub("home",pid,filepath);
+find=0;
+gsub("Z","",starttime);
+gsub("T"," ",starttime);
+gsub("Z","",endtime);
+gsub("T"," ",endtime);
+for(i=0;i<no;i++)
+{
+if(filepath==filestr[i])
+{
+find=1;
+cmd="echo $(date -d \""starttime"\" +%s%N) - $(date -d \""timestr[i]"\" +%s%N) | bc";
+cmd | getline var;
+close(cmd);
+filestr[i]=filepath;
+timestr[i]=endtime;
+}
+}
+if(find==0){
+filestr[no++]=filepath;
+timestr[tno++]=endtime;
+var=0;
+}
+return var; 
+}
 {
 ppid=compare($12,$9,$10);
+dur=compute($1,$2,ppid,$10);
+if(dur!=0)
+{printf("%s %s %s %.9f\n",ppid,"compute",$10,dur*(1e-9))}
 if($12=="read")
 {printf("%s %s %s %.9f %s %s %s\n",ppid,$12,$10,$3*(1e-9),$17,$14,$15)}
 else if($12=="write")

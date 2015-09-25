@@ -143,7 +143,7 @@ int main(int argc, char *argv[]) {
   MSG_init(&argc, argv);
   /* Explicit initialization of the action module is required now*/
   MSG_action_init();
-  MSG_config("surf/precision","1e-9");
+ // MSG_config("surf/precision","1e-9");
   MSG_create_environment(argv[1]);
  /*  Simulation setting */
   msg_error_t res = MSG_OK;
@@ -153,6 +153,7 @@ int main(int argc, char *argv[]) {
   char *wh=argv[4];
   XBT_INFO("Your choose is %s",wh);
   xbt_replay_action_register("unlink", simsleep);//register the action
+  xbt_replay_action_register("compute", simsleep);//register the action
   xbt_replay_action_register("access", simsleep);
   xbt_replay_action_register("stat", simsleep);
   xbt_replay_action_register("flush", simsleep);
