@@ -15,7 +15,7 @@ The main goal of developing the utility is to using the data got from LSST to si
 
 ### Explanation of the command and the files
 
-example of the command:./extracttrace --log=replay.thres:verbose one_host_one_disk.xml lsst-demo-v10.1-ubuntu-v14.04-cluefs_deployment.xml lsst-demo-v10.1-ubuntu-v14.04-cluefs_action_trace.txt action
+example of the command:./extracttrace --log=replay.thres:verbose --cfg=surf/precision:1e-9 one_host_one_disk.xml lsst-demo-v10.1-ubuntu-v14.04-cluefs_deployment.xml lsst-demo-v10.1-ubuntu-v14.04-cluefs_action_trace.txt action
 
  * platform.xml:In order to run any simulation, SimGrid must be provided with three things: something to run (i.e., your code), a description of the platform on which you want to simulate your application and lastly information about the deployment process.http://simgrid.gforge.inria.fr/simgrid/3.12/doc/platform.html
  
